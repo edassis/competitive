@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        "*.asm": "asm",
+        "*.s": "asm",
+        "iostream": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "algorithm": "cpp",
+        "ostream": "cpp"
+    }
+}
