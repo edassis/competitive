@@ -58,13 +58,9 @@ int main() {
     cin.tie(NULL);
 
     vi a;
-    
-    do {
-        int t;
-        cin >> t;
-        
-        a.eb(t);
-    } while(!cin.eof());
+    int t;
+
+    while (cin >> t) a.eb(t);
 
     a = mergesort(a);
 
