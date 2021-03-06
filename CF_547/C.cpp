@@ -21,41 +21,46 @@ int main() {
 
     int n; cin >> n;
 
-    vi p(n+1, n);
+    vi p(n+1, 0);
     vi q(n);
+    map<int, int> qtd;
 
-    map<int, int> c;
-
-    int start = 0;
-    int min = 1e9;
-
-    for (int i = 1; i < n; i++) {
-        cin >> q[i];
+    int x; cin >> x;
+    int max = x, min = x;
+    q[1] = x;
+    qtd[x]++;
+    for (int i = 2; i <= n-1; i++) {
+        cin >> x;
+        q[i] = x + q[i-1];
         
-        if (q[i] < min) {
-            min = q[i];
-            start = i;
-        }
+        qtd[q[i]]++;
+
+        if (q[i] < min) min = q[i];
+        if (q[i] > max) max = q[i];
+    }
+    
+    for (auto e : qtd) if (e.ss > 1 || e.ff == 0) {
+        cout << -1 << endl;
+        return 0;
     }
 
-    p[start] = n;
+    int i;
+    for (i = 1; i <= n; i++) {
+        p[1] = i;
 
-    for (int i = start - 1; i > 0; i--) {
-        p[i] = p[i+1] - q[i];
-    } 
-
-    for (int i = start + 1; i <= n; i++) {
-        p[i] = p[i-1] + q[i-1];
+        if(i+max <= n && i+min > 0) break;
     }
 
-    for (int i = 1; i <= n; i++) {
-        if (p[i] > n || p[i] < 0) {
-            cout << -1 << endl;
-            return 0;
-        }
+    if (i > n) {
+        cout << -1 << endl;
+        return 0;
     }
 
-    for (int i = 1; i <= n; i++) {
+    for (i = 2; i <= n; i++) {
+        p[i] = p[1] + q[i-1];
+    }
+
+    for (i = 1; i <= n; i++) {
         cout << p[i] << ' ';
     }
     cout << endl;
