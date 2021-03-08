@@ -1,3 +1,13 @@
+/**
+ * @file insertion2.cpp
+ * @author Eduardo F. Assis (eduardoffassis@gmail.com)
+ * @brief 
+ * @version 0.1
+ * @date 2021-03-03
+ * 
+ * @copyright Copyright (c) 2021
+ * 
+ */
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -14,6 +24,14 @@ using namespace std;
 
 #define PRIMO 1000000007
 
+/**
+ * @brief Returns sorted \b vector from \p a, \p b.
+ * 
+ * @param a Vector to sort.
+ * @param b Vector to sort.
+ * @param swap Number of swaps.
+ * @return vi Sorted vector.
+ */
 vi merge(vi &a, vi &b, ll &swap) {
     unsigned i = 0, j = 0;
     vi c;
@@ -25,7 +43,10 @@ vi merge(vi &a, vi &b, ll &swap) {
         } else {
             c.eb(b[j]);
             j++;
-            swap += a.size() + j - c.size();
+            // If a > b, means that he needed to swap
+            // (a.size() + j) len
+            // minus c.size();
+            swap += a.size() + j - c.size();    // calculates swaps
         }
     }
 
@@ -40,6 +61,13 @@ vi merge(vi &a, vi &b, ll &swap) {
     return c;
 }
 
+/**
+ * @brief Merge sort function.
+ * 
+ * @param a 
+ * @param swap 
+ * @return vi 
+ */
 vi mergesort(vi &a, ll &swap) {
     if (a.size() == 1) return a;
 
@@ -67,13 +95,10 @@ int main() {
 
         for (int j = 0; j < n; j++) scanf("%d", &a[j]);
 
-        ll swap = 0;
+        ll swap = 0;    // swap can be greater than 10^9
         a = mergesort(a, swap);
 
         printf("%lld\n", swap);
-        
-        // for (int j = 0; j < n; j++) printf("%d ", a[j]);
-        // printf("\n");
     }
 
     return 0;

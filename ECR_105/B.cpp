@@ -25,39 +25,34 @@ int main() {
     cin >> t;
     for (int i = 0; i < t; i++) {
         cin >> n >> u >> r >> d >> l;
-        int uc = u;
-        int rc = r;
-        int dc = d;
-        int lc = l;
 
-        int qtd = n - 2;
         bool found = false;
-        for (int j = 0; j < 15; j++) {  // permutation 2^4
+        for (int j = 0; j < 16; j++) {  // permutation 2^4
             found = false;
-            u = uc; r = rc; d = dc; l = lc;
-
-            if ((j & (1<<0)) && u && r) {
+            int uc = u, rc = r, dc = d, lc = l;
+            
+            if (j & 1) {
                 // upper & right
-                u--;
-                r--;
+                uc--;
+                rc--;
             }
-            if ((j & (1<<2)) && d && l) {
-                // down & left
-                d--;
-                l--;
-            }
-            if ((j & (1<<3)) && l && u) {
-                // left & upper
-                l--;
-                u--;
-            }
-            if ((j & (1<<1)) && r && d) {
+            if (j & 2) {
                 // right & down
-                r--;
-                d--;
+                rc--;
+                dc--;
+            }
+            if (j & 4) {
+                // down & left
+                dc--;
+                lc--;
+            }
+            if (j & 8) {
+                // left & upper
+                lc--;
+                uc--;
             }
 
-            if (qtd >= u && qtd >= r && qtd >= d && qtd >= l) {
+            if (min({uc, rc, dc, lc}) >= 0 && max({uc, rc, dc, lc}) <= n - 2) {
                 found = true;
                 break;
             } 
