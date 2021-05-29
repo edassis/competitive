@@ -9,16 +9,16 @@
 
 using namespace std;
 
-#define vi vector<int>
+#define vi  vector<int>
 #define vii vector<ii>
 #define vll vector<ll>
-#define ll long long
-#define pb push_back
-#define eb emplace_back
-#define mp make_pair
-#define ii pair<int, int>
-#define ff first
-#define ss second
+#define ll  long long
+#define pb  push_back
+#define eb  emplace_back
+#define mp  make_pair
+#define ii  pair<int, int>
+#define ff  first
+#define ss  second
 
 #define prime 1000000007
 
@@ -98,7 +98,7 @@ int main() {
             if (ih == h) {
                 ih = 0;
             }
-            
+
             W(im);
             W(ih);
             W(check(im));
