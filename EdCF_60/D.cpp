@@ -78,50 +78,31 @@ struct Matrix {
     }
 };
 
-ll fexp(ll num, ll e) {
-    if(e == 0) return 1;
-
-    if(e % 2) return num*fexp(num, e>>1)*fexp(num, e>>1)%prime;
-    return fexp(num, e>>1)*fexp(num, e>>1)%prime;
-}
-
-vector<Matrix> dp(64, Matrix(2, 2, true));
-char calculado[64];
-
-Matrix fexpmdp(Matrix mat, ll e, ll n, ll st) {
-    if(e == 0) return Matrix(n, n, true);
-    if(calculado[st]) return dp[st];
-    
-    Matrix ans(2, 2, true);
-    if(e % 2){
-        ans = mat * fexpmdp(mat, e>>1, n, st+1) * fexpmdp(mat, e>>1, n, st+1);
-    } else {
-        ans = fexpmdp(mat, e>>1, n, st+1) * fexpmdp(mat, e>>1, n, st+1);
-    }
-
-    calculado[st] = 1;
-    return dp[st] = ans;
-}
-
-Matrix fexpm(Matrix mat, ll e, ll n) {
+Matrix fexp(const Matrix &mat, ll e, const ll &n) {
     if(e == 0) return Matrix(n, n, true);
     
-    Matrix ans = fexpm(mat, e>>1, n);
+    Matrix ans = fexp(mat, e/2, n);
     ans = ans*ans;
-    if(e % 2) ans = mat * ans;
+    if(e%2) ans = ans*mat;
 
     return ans;
 }
 
-ll f(ll n) {
-    if(n == 0) return 0;
+ll f(ll n, ll m) {
+    if(n == 1 || m > n) return 1;
 
-    Matrix idx(id), base(b);
-    
-    // memset(calculado, 0, sizeof(calculado));
-    
-    // idx = fexpmdp(idx, n-1, 2, 0);
-    idx = fexpm(idx, n-1, 2);
+    Matrix idx(m, m);
+
+    idx.m[0][0] = 1;
+    idx.m[0][m-1] = 1;
+    for(int i = 1, j = 0; i < m && j < m; i++, j++) {
+        idx.m[i][j] = 1;
+    }
+
+    vector<vl> b(m, vl(1, 1));
+    Matrix base(b);
+
+    idx = fexp(idx, n-1*(m-1), m);
     Matrix ans = idx * base;
 
     return ans.m[0][0];
@@ -130,9 +111,9 @@ ll f(ll n) {
 int main() {
     sws
 
-    ll n; cin >> n;
+    ll n, m; cin >> n >> m;
 
-    cout << f(n) << endl;
+    cout << f(n, m) << endl;
 
     return 0;
 }
