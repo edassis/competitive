@@ -32,6 +32,7 @@
         "tuple": "cpp",
         "variant": "cpp",
         "memory_resource": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "complex": "cpp"
     }
 }
