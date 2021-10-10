@@ -98,26 +98,48 @@ int main() {
     Sparse st_max(a, f_max_p), st_min(b, f_min_p);
 
     ll count = 0;
-    for(int i = 0; i < n; i++) {
-        // middle of the remaining space
-        
-        ll l = i;
-        ll r = n-1;
-        while(l <= r) {
-            ll mid = (l+r)/2;
-            // W(l); W(r); W(mid);
-            ll max = st_max.query(l, mid, f_max_p);
-            ll min = st_min.query(l, mid, f_min_p);
-            // W(diff);
-            if(max == min) {
-                count++;
-                break;
-            } else if (max > min) {
-                r = mid - 1;
-            } else { 
-                l = mid + 1;
+    for(int l = 0; l < n; l++) {
+        ll rmin = -1, rmax = -1;
+
+        ll lr = l, rr = n-1;
+        while(lr <= rr) {
+            ll r = (lr+rr)/2;
+
+            ll max = st_max.query(l, r, f_max_p);
+            ll min = st_min.query(l, r, f_min_p);
+            
+            if(max >= min) {
+                if(max == min)
+                    rmin = r;
+                rr = r - 1;
+            } else {
+                lr = r + 1;
             }
         } 
+        
+        lr = l; rr = n-1;
+        // rmax = rmin;
+        while(lr <= rr) {
+            ll r = (lr+rr)/2;
+
+            ll max = st_max.query(l, r, f_max_p);
+            ll min = st_min.query(l, r, f_min_p);
+            
+            if(max <= min) {
+                if(max == min)
+                    rmax = r;
+                lr = r + 1;
+            } else {
+                rr = r - 1;
+            }
+        }
+
+        // if(!rmax) rmax = rmin;
+        // if(!rmin) rmin = rmax;
+
+        if(rmin >= l)
+            count += rmax - rmin + 1;    // qtd de r para tal l.
+        
     }
 
     cout << count << endl;
