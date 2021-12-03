@@ -2,6 +2,7 @@
 bin/
 
 # Files
+main.cpp
 *.out
 *.exe
 *.txt
