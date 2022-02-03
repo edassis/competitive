@@ -1,0 +1,2 @@
+CompileFlags:
+    Add: [-I, C:/dev/TDM-GCC-32/lib/gcc/mingw32/10.3.0/include/c++/mingw32]

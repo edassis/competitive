@@ -1,5 +1,7 @@
 # Folders
 bin/
+.cache/
+build/
 
 # Files
 main.cpp
