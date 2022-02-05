@@ -1,5 +1,6 @@
 # Folders
 bin/
+*.out.*/
 
 # Files
 main.cpp
