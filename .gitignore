@@ -8,4 +8,4 @@ build/
 main.cpp
 *.out
 *.exe
-*.txt
+input.txt

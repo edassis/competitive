@@ -1,0 +1,26 @@
+cmake_minimum_required(VERSION 3.20.0)
+project(competitive VERSION 0.1.0)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_BUILD_TYPE Debug)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+# message(${OUTPUT_NAME})
+#INCLUDE(ctEST)
+#ENABLE_TESTING()
+
+add_executable(a main.cpp)
+#set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+#set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+#include(CPack)
+
+#include_directories(SYSTEM "C:/dev/TDM-GCC-32/lib/gcc/mingw32/10.3.0/include/c++/mingw32")
+target_include_directories(a SYSTEM PRIVATE ${CMAKE_SOURCE_DIR})
+target_precompile_headers(a PRIVATE <bits/stdc++.h>)
+#target_link_directories(${PROJECT_NAME} PRIVATE "C:/dev/TDM-GCC-32/lib/gcc/mingw32/10.3.0/include/c++")
+
+get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+foreach(dir ${dirs})
+  message(STATUS "dir='${dir}'")
+endforeach()
