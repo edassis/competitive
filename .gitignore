@@ -1,6 +1,8 @@
 # Folders
 bin/
 *.out.*/
+.cache/
+build/
 
 # Files
 main.cpp
