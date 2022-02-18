@@ -1,10 +1,10 @@
 FILE := main.cpp
-OUT_FILE := a.out
+OUT_FILE := a
 
 CXX := g++
 
 # COMP_ARGS := -fsanitize=address -std=c++17 -Wall -Wextra -g
-COMP_ARGS := -std=c++17 -Wall -Wextra -g
+COMP_ARGS := -std=c++17 -Wall -Wextra -g -I"."
 
 .PONY: all compile exec
 

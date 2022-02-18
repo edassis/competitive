@@ -8,7 +8,8 @@
             "type": "lldb",
             "request": "launch",
             "name": "LLDB Launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/a",
+            // "args": ["<", "input.txt"],
             "args": [],
             "cwd": "${workspaceFolder}"
         },
@@ -36,7 +37,7 @@
             "name": "Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/a.out",
+            "program": "${workspaceFolder}/a",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",

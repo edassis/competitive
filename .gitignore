@@ -5,7 +5,7 @@ bin/
 build/
 
 # Files
-main.cpp
+#main.cpp
 *.out
 *.exe
 input.txt
