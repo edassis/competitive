@@ -27,8 +27,9 @@ using vpl = vector<pl>;
 #define ss             second
 #define endl           '\n'
 #define forn(i, n)     for (int i = 0; i < (int)n; i++)
-#define forne(i, k, n) for (int i = k; i < (int)n; i++)
-#define fora(a)        for (auto each : a)
+#define forni(i, k, n) for (int i = k; i < (int)n; i++)
+#define forne(i, k, n) for (int i = k; i <= (int)n; i++)
+#define fora(a)        for (auto &each : a)
 #define all(x)         x.begin(), x.end()
 #define rall(x)        x.rbegin(), x.rend()
 #define clr(x)         memset(x, 0, sizeof(x))
@@ -43,10 +44,17 @@ inline void sws() {
 }
 
 // Constants
-const ll MOD = 1e9 + 7;
-const ll oo  = 1e18 + 7;
+const double pi  = acos(-1.0);
+const ll     MOD = 1e9 + 7;
+const ll     oo  = 1e18 + 7;
 
 const double EPS{1e-6};
+
+template <typename T>
+struct Point;
+
+template <typename T>
+struct Line;
 
 template <typename T>
 bool equals(const T &a, const T &b) {
@@ -54,6 +62,20 @@ bool equals(const T &a, const T &b) {
         return fabs(a - b) < EPS;
     } else {
         return a == b;
+    }
+}
+
+template <typename T>
+double dist(const Point<T> &a, const Point<T> &b) {
+    return sqrt(pow(b.x - a.x, 2) + pow(b.y - a.y, 2));
+}
+
+template <typename T>
+T manhattan(const Point<T> &a, const Point<T> &b) {
+    if (is_floating_point_v<T>) {
+        return fabs(a.x - b.x) + fabs(a.y - b.y);
+    } else {
+        return abs(a.x - b.x) + abs(a.y - b.y);
     }
 }
 
@@ -68,6 +90,7 @@ struct Point {
 
 template <typename T>
 struct Line {
+    // equacação geral
     T a, b, c;
 
     Line(const Point<T> &P, const Point<T> &Q) {
@@ -86,17 +109,62 @@ struct Line {
     }
 };
 
+template <typename T>
+struct Triangle {
+    Point<T> A, B, C;
+
+    double area() const {
+        // Fórmula de Heron
+        auto a = dist(A, B);
+        auto b = dist(B, C);
+        auto c = dist(C, A);
+
+        // semiperímetro
+        auto s = (a + b + c) / 2;
+
+        return sqrt(s) * sqrt(s - a) * sqrt(s - b) * sqrt(s - c);
+    }
+};
+
 int main() {
     sws();
 
-    double pi = acos(-1.0);
-    W(pi);
-    double Ne, Ri; cin >> Ne >> Ri;
-    W(Ne); W(Ri);
-    double Re = (Ri*pi)/(Ne-pi);
+    int t;
+    cin >> t;
 
-    cout << fixed << setprecision(15);
-    cout << Re << endl;
+    while (t--) {
+        int n, k;
+        cin >> n >> k;
+
+        vector<Point<int>> points;
+        vi                 has(n);
+
+        forn(i, n) {
+            Point<int> p;
+            cin >> p.x >> p.y;
+            points.pb(p);
+        }
+
+        forn(i, n) {
+            forni(j, i + 1, n) {
+                auto man = manhattan(points[i], points[j]);
+                if (man <= k) {
+                    has[i]++;
+                }
+            }
+        }
+
+        bool valido = false;
+        forn(i, n) {
+            if (has[i] == n - 1) {
+                valido = true;
+                break;
+            }
+        }
+
+        cout << (valido ? "1" : "-1") << endl;
+    }
 
     return 0;
 }
+
