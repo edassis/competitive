@@ -27,6 +27,11 @@
 				"kind": "build",
 				"isDefault": true
 			}
+		},
+		{
+			"label": "echo",
+			"type": "shell",
+			"command": "echo ${config:C_Cpp.default.includePath}"
 		}
 	]
 }

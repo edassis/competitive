@@ -8,7 +8,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MY_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MY_FLAGS}")
 # include_directories and target_include_directories didn't work
 # Mac always overrides the specified path. Setting this seems to solve:
-set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "/opt/homebrew/include/c++/11/aarch64-apple-darwin20")
+set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "/opt/homebrew/include/c++/11/aarch64-apple-darwin21")
 #SET(CMAKE_OSX_SYSROOT "$ENV{HOME}/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/sysroot")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
