@@ -8,5 +8,5 @@ build/
 #main.cpp
 *.out
 *.exe
-input.txt
+*.txt
 a

@@ -31,7 +31,7 @@
                 "/opt/homebrew/include/c++/11/aarch64-apple-darwin21/bits/stdc++.h"
             ],
             "configurationProvider": "ms-vscode.cmake-tools",
-            "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+            // "compileCommands": "${workspaceFolder}/build/compile_commands.json"
         }
     ],
     "version": 4

@@ -21,7 +21,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 
 # include_directories(BEFORE SYSTEM "/opt/homebrew/include/c++/11")
 
-add_executable(a main.cpp)
+add_executable(a src/main.cpp)
 #set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 #set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 #include(CPack)
