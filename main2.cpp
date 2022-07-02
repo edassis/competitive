@@ -44,35 +44,57 @@ inline void sws() {
 }
 
 // Constants
-const ll     MOD = 1e9 + 7;
-const ll     oo  = 1e18 + 7;
+const ll MOD = 1e9 + 7;
+const ll oo  = 1e18 + 7;
 const double PI  = acos(-1.0);
-const double EPS{1e-6};
+const double EPS{1e-6}; 
+
+using inter = pair<int,int>;
+
+int solve() {
+    return 0;
+}
+
+ll f(ll n) {
+    return n * (n-1) * (n-2) / 6;
+}
 
 int main() {
     sws();
-    string a;
-    cin >> a;
-    int k;
-    cin >> k;
+    
+    while(true) {
+        int n; cin >> n;
+        if(!n) break;    
 
-    forn(i, a.size()) if(k) {
-        string end;
-        auto offset = 0;
-        forne(j, 1, k) if (i+j < a.size()) {
-            if (a[i+j] > a[i+offset]) { offset = j; }
+        int idx = 0;
+        double bigger = 0;
+
+        forn(i, n) {
+            double w, h; cin >> w >> h;
+            
+            // 2x2
+            auto lmin = w/2;
+            lmin = min(lmin, h/2);
+            // W(lmin);
+            if(lmin - EPS > bigger) {
+                bigger = lmin;
+                idx = i+1;
+            }
+
+            // sequencia na linha/coluna
+            auto aux = max(w, h)/min(w, h);
+            // W(aux);
+            if(aux + EPS < 4) {
+            } else {
+                if(min(w, h) - EPS > bigger) {
+                    bigger = min(w,h);
+                    idx = i+1;
+                }
+            }
         }
 
-        end = a.substr(0, i) + a[i+offset] + a.substr(i, offset);
-
-        if (i+offset+1 < a.size()) {
-            end += a.substr(i+offset+1, a.size() - (i+offset+1));
-        }
-        a=end;
-        k-=offset;
+        cout << idx << endl;
     }
-
-    cout << a << endl;
 
     return 0;
 }

@@ -1,2 +1,2 @@
 CompileFlags:
-    Add: [-I, C:/dev/TDM-GCC-32/lib/gcc/mingw32/10.3.0/include/c++/mingw32]
+    Add: [-I/opt/homebrew/include/c++/11/aarch64-apple-darwin20]
