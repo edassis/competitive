@@ -42,55 +42,57 @@ inline void sws() { ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL
 const ll MOD = 1e9+7;
 const ll oo = 1e18+7;
 
-const int N = 3e5+1;
-vl w(N);
-vpi adj[N];
-int n=0;
-ll ans=0;
-
-ll f(int e, int p=0) {
-
-    ll best = w[e];
-
-    vl results;
-
-    for(auto [c, v] : adj[e]) {
-        if(v != p) {
-            auto child = f(v, e)-c;
-            results.pb(child);
-            best = max(best, child+w[e]);
-        }
+class DSU {
+    vi p;
+    vi size;
+public:
+    DSU(int n) : p(n+1), size(n+1, 1) {
+        iota(all(p), 0);
     }
 
-    sort(rall(results));
+    void insert(int a, int b) {
+        // // vai para o pai
+        a = query(a);
+        b = query(b);
 
-    ans = max(ans, best);
-    if(results.size() >= 2) {
-        ans = max(ans, results[0]+results[1]+w[e]);
+        // // Mesmo pai
+        if(a == b) return;
+
+        // // balancamento
+        // if(size[a] > size[b]) {
+        //     swap(a, b);
+        // }
+
+        // b maior
+        size[b] += size[a];
+        p[a] = b;
     }
 
-    return best;
-}
+    int query(int e) {
+        // Compressão
+        // return (e == p[e]) ? (e) : ( p[e] = query(p[e]) );
+        return (e == p[e]) ? (e) : ( query(p[e]) );
+    }
+
+    bool same_set(int a, int b) {
+        return query(a) == query(b);
+    }
+};
 
 int main() {
     sws();
 
-    cin >> n;
+    int r, c, q;
+    while(cin >> r >> c >> q, r != 0) {
+        DSU dsu(r);
 
-    forn(i,n) {
-        cin >> w[i];
+        forn(i, c) {
+            int a, b; cin >> a >> b;
+            dsu.insert(a, b);
+        }
+        // For each room in test case
+        // print either it make a good challenge or not (Y/N)
     }
-
-    forn(i, n-1) {
-        int u, v, c; cin >> u >> v >> c;
-        u--; v--;
-        adj[u].eb(c, v);
-        adj[v].eb(c, u);
-    }
-    
-    f(0);
-
-    cout << ans << endl;
 
     return 0;
 }
