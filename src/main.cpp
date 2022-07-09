@@ -51,17 +51,17 @@ public:
     }
 
     void insert(int a, int b) {
-        // // vai para o pai
+        // vai para o pai
         a = query(a);
         b = query(b);
 
-        // // Mesmo pai
+        // Mesmo pai
         if(a == b) return;
 
-        // // balancamento
-        // if(size[a] > size[b]) {
-        //     swap(a, b);
-        // }
+        // balancamento
+        if(size[a] > size[b]) {
+            swap(a, b);
+        }
 
         // b maior
         size[b] += size[a];
@@ -70,8 +70,8 @@ public:
 
     int query(int e) {
         // Compressão
-        // return (e == p[e]) ? (e) : ( p[e] = query(p[e]) );
-        return (e == p[e]) ? (e) : ( query(p[e]) );
+        return (e == p[e]) ? (e) : ( p[e] = query(p[e]) );
+        // return (e == p[e]) ? (e) : ( query(p[e]) );
     }
 
     bool same_set(int a, int b) {
@@ -79,20 +79,86 @@ public:
     }
 };
 
+const int MAXR = 1e4+5;
+int r, c, q;
+vi adj[MAXR];
+int visited[MAXR];
+void dfs(int s, int &t, set<int> &inCycle) {
+    
+    visited[s]++;
+    W(s);
+    W(visited[s]);
+    for(auto v : adj[s]) {
+        if(!visited[v] && !inCycle.count(v)) {
+            dfs(v, t, inCycle);
+        } 
+    }
+}
+
 int main() {
     sws();
-
-    int r, c, q;
+ 
+    clr(visited);
     while(cin >> r >> c >> q, r != 0) {
+        clr(adj);
         DSU dsu(r);
+        set<int> inCycle;
 
         forn(i, c) {
             int a, b; cin >> a >> b;
+
+            if(dsu.same_set(a, b)) {
+                inCycle.insert(a);
+                inCycle.insert(b);
+            }
+
+            adj[a].pb(b);
+            adj[b].pb(a);
             dsu.insert(a, b);
         }
-        // For each room in test case
-        // print either it make a good challenge or not (Y/N)
+
+        forn(i, q) {
+            int s,t; cin >> s >> t;
+
+            clr(visited);
+            dfs(s, t, inCycle);
+
+            cout << (visited[t] ? 'Y':'N') << endl;
+        }
+
+        cout << '-' << endl;
     }
 
     return 0;
 }
+
+// Usando dfs, eu consigo pegar caminhos que passam
+// por diferentes nodes ate o alvo mas n consigo
+// pegar caminhos diferentes que utilizam os mesmos nodes.
+
+// Ideia: Uso a dfs para calcular se algum no é visitado mais de 
+// 1 vez, guardo num vetor, uso segtree para consultar a
+// soma rapidamente. Se soma > 0, ciclos.
+
+// Usando um vetor auxiliar para contar nodes v já visitados
+// na dfs faz com que ela conte tanto o node que comeca
+// quanto o que termina.
+
+// Como avaliar somente 1 caminho por vez entre s e t
+// e não o grafo inteiro?
+
+// O caminho desejado tem r-1 arestas obrigatoriamente. Ou seja,
+// todo subgrupo rs do caminho tem rs-1 arestas.
+
+// Para cada node s
+    // Se o prox n for o alvo e for uma folha, desconsidera
+    // Se formar um ciclo, desconsidera
+    // Caso contrario, v faz parte do caminho
+
+// fazer dsu para saber conexoes
+// a cada insert conferir se nodes ja pertenciam
+// se sim, os nodes pertencem a um ciclo
+// nas queries, fazer uma dfs somente nas arestas
+// que n fazem parte do ciclo
+// se t for visitado, entao eh pq existe um caminho
+// formado por pontes
