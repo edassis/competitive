@@ -42,123 +42,46 @@ inline void sws() { ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL
 const ll MOD = 1e9+7;
 const ll oo = 1e18+7;
 
-class DSU {
-    vi p;
-    vi size;
-public:
-    DSU(int n) : p(n+1), size(n+1, 1) {
-        iota(all(p), 0);
-    }
+const int MAXN = int(1e5+4);
+// 0 - red, 1 - black
+vector<pii> adj[MAXN];
+bool visited[MAXN];
+int n, k;
 
-    void insert(int a, int b) {
-        // vai para o pai
-        a = query(a);
-        b = query(b);
+// bfs, procurar caminho com black ate de profundidade k
+int bfs(int s, int p, int lv) {
+    // visited[s] = true;
 
-        // Mesmo pai
-        if(a == b) return;
+    for(auto [v, c] : adj[s]) {
+        if(v != p) {
 
-        // balancamento
-        if(size[a] > size[b]) {
-            swap(a, b);
         }
-
-        // b maior
-        size[b] += size[a];
-        p[a] = b;
     }
 
-    int query(int e) {
-        // Compressão
-        return (e == p[e]) ? (e) : ( p[e] = query(p[e]) );
-        // return (e == p[e]) ? (e) : ( query(p[e]) );
-    }
-
-    bool same_set(int a, int b) {
-        return query(a) == query(b);
-    }
-};
-
-const int MAXR = 1e4+5;
-int r, c, q;
-vi adj[MAXR];
-int visited[MAXR];
-void dfs(int s, int &t, set<int> &inCycle) {
-    
-    visited[s]++;
-    W(s);
-    W(visited[s]);
-    for(auto v : adj[s]) {
-        if(!visited[v] && !inCycle.count(v)) {
-            dfs(v, t, inCycle);
-        } 
-    }
 }
 
 int main() {
     sws();
- 
-    clr(visited);
-    while(cin >> r >> c >> q, r != 0) {
-        clr(adj);
-        DSU dsu(r);
-        set<int> inCycle;
 
-        forn(i, c) {
-            int a, b; cin >> a >> b;
+    // int n,k;
+    cin >> n >> k;
 
-            if(dsu.same_set(a, b)) {
-                inCycle.insert(a);
-                inCycle.insert(b);
-            }
+    forn(i, n-1) {
+        int u,v,x;
+        cin >> u >> v >> x;
+        u--; v--;
 
-            adj[a].pb(b);
-            adj[b].pb(a);
-            dsu.insert(a, b);
-        }
-
-        forn(i, q) {
-            int s,t; cin >> s >> t;
-
-            clr(visited);
-            dfs(s, t, inCycle);
-
-            cout << (visited[t] ? 'Y':'N') << endl;
-        }
-
-        cout << '-' << endl;
+        adj[u].eb(v, x);
+        adj[v].eb(u, x);
     }
+
+    int ans = 0;
+    forn(i, n) {
+        clr(visited);
+        ans += bfs(i, i, 1);
+    }
+
+    cout << ans << endl;
 
     return 0;
 }
-
-// Usando dfs, eu consigo pegar caminhos que passam
-// por diferentes nodes ate o alvo mas n consigo
-// pegar caminhos diferentes que utilizam os mesmos nodes.
-
-// Ideia: Uso a dfs para calcular se algum no é visitado mais de 
-// 1 vez, guardo num vetor, uso segtree para consultar a
-// soma rapidamente. Se soma > 0, ciclos.
-
-// Usando um vetor auxiliar para contar nodes v já visitados
-// na dfs faz com que ela conte tanto o node que comeca
-// quanto o que termina.
-
-// Como avaliar somente 1 caminho por vez entre s e t
-// e não o grafo inteiro?
-
-// O caminho desejado tem r-1 arestas obrigatoriamente. Ou seja,
-// todo subgrupo rs do caminho tem rs-1 arestas.
-
-// Para cada node s
-    // Se o prox n for o alvo e for uma folha, desconsidera
-    // Se formar um ciclo, desconsidera
-    // Caso contrario, v faz parte do caminho
-
-// fazer dsu para saber conexoes
-// a cada insert conferir se nodes ja pertenciam
-// se sim, os nodes pertencem a um ciclo
-// nas queries, fazer uma dfs somente nas arestas
-// que n fazem parte do ciclo
-// se t for visitado, entao eh pq existe um caminho
-// formado por pontes
