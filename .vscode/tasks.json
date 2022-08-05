@@ -29,9 +29,14 @@
 			}
 		},
 		{
-			"label": "echo",
+			"label": "compile",
 			"type": "shell",
-			"command": "echo ${config:C_Cpp.default.includePath}"
+			"command": "./run.sh"
+		},
+		{
+			"label": "compile and run",
+			"type": "shell",
+			"command": "./run.sh && ./a"
 		}
 	]
 }

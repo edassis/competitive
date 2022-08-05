@@ -1,0 +1,6 @@
+make --dry-run --keep-going --print-directory
+make: Entering directory `/Users/eduardo/Documents/Repos/competitive'
+g++-11 -std=c++17 -Wall -Wextra -g main.cpp -o a
+ 
+make: Leaving directory `/Users/eduardo/Documents/Repos/competitive'
+ 

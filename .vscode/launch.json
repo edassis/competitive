@@ -5,13 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "LLDB Launch",
             "type": "lldb",
             "request": "launch",
-            "name": "LLDB Launch",
             "program": "${workspaceFolder}/a",
-            // "args": ["<", "input.txt"],
-            "args": [],
-            "cwd": "${workspaceFolder}"
+            // args n funciona
+            // "args": ["<", "${workspaceFolder}/input.txt"],
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "compile"
         },
         {
             "name": "Build && Debug",
@@ -31,7 +32,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "C/C++: g++ build active file"
+            "preLaunchTask": "compile"
         },
         {
             "name": "Launch",

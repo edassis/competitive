@@ -10,3 +10,5 @@ build/
 *.exe
 *.txt
 a
+output
+.DS_Store
