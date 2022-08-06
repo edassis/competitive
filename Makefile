@@ -1,4 +1,4 @@
-FILE := main.cpp
+FILE := src/main.cpp
 OUT_FILE := a
 
 CXX := g++-11

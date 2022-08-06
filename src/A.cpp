@@ -42,57 +42,41 @@ inline void sws() { ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL
 const ll MOD = 1e9+7;
 const ll oo = 1e18+7;
 
-string f(string s, int n) {
-    vi ch(n);
-
-    while(true) {
-        int val = MOD;
-        int pos = -1;
-        forni(i,1,n) if(!ch[i-1]) {
-            if(s[i] < s[i-1] && s[i] < val) {
-                val = s[i];
-                pos = i;
-            }
-            // 5 1 2 3
+int f(int n) {
+    int pot = 10000;
+    for(int k = 4; k >= 0; k--) {
+        for(int i = 9; i >= 1; i--) {
+            int x = i * pot;
+            if(x <= n) return x;
         }
-        if(pos == -1) break;
+        pot /=10;
+    }
 
-        swap(s[pos-1], s[pos]);
-        ch[pos-1] = 1;
-    } 
-
-    return s;
+    return 1;
 }
 
 int main() {
     sws();
 
-    int t; cin >> t;
+    int t;
+    cin >> t;
 
     while(t--) {
-        int n; cin >> n;
+        int n;
+        cin >> n;
 
-        vi els(n);
-        forn(i,n) cin >> els[i];
-
-        string s;
-        forn(i,n) {
-            while(els[i]) {
-                s += els[i] % 10 + '0';
-                els[i]/=10;
-            }
-            reverse(s.begin(), s.end());
-            W(s);
+        vi ans;
+        while(n) {
+            int addend = f(n);
+            n-=addend;
+            ans.pb(addend);
         }
 
-        s = f(s, n);
-        forn(i,n) {
-            cout << s[i] << " \n"[i == n-1];
+        cout << ans.size() << endl;
+        forn(i,ans.size()) {
+            cout << ans[i] << " \n"[i==ans.size()-1];
         }
     }
 
     return 0;
 }
-
-// levar o i-th menor valor para as primeiras posicoes
-// ate acabar as trocas ou, a troca nao ser vantajosa
