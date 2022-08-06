@@ -12,9 +12,12 @@ output
 *.txt
 a
 output
+
+# Mac
 .DS_Store
 *.dSYM/
 
+# vscode
 .vscode/
 !.vscode/c_cpp_properties.json
 !.vscode/launch.json
