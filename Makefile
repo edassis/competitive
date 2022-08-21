@@ -1,18 +1,21 @@
-FILE := src/main.cpp
+FILE := lib/seg.cpp
 OUT_FILE := a
 
-CXX := g++-11
+CXX := g++
 
-# COMP_ARGS := -fsanitize=address -std=c++17 -Wall -Wextra -g
-COMP_ARGS := -std=c++17 -Wall -Wextra -g
+COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
+EXTENDED_ARGS := -Wshadow -fsanatize-=address -fsanitize=undefined -D_GLIBCXX_DEBUG
 
-.PONY: all compile exec clear
+.PONY: all compile exec clear compilex
 
 all: compile
 
 compile:
 	$(CXX) $(COMP_ARGS) $(FILE) -o $(OUT_FILE)
 
+compilex:
+	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(FILE) -o $(OUT_FILE)
+	
 exec: compile
 	./$(OUT_FILE)
 
