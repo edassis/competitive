@@ -1,12 +1,26 @@
-FILE := lib/seg.cpp
+FILE := main.cpp
 OUT_FILE := a
 
-CXX := g++
+# https://stackoverflow.com/a/14777895/8903027
+ifeq '$(findstring ;,$(PATH))' ';'
+    detected_OS := Windows
+else
+    detected_OS := $(shell uname 2>/dev/null || echo Unknown)
+    detected_OS := $(patsubst CYGWIN%,Cygwin,$(detected_OS))
+    detected_OS := $(patsubst MSYS%,MSYS,$(detected_OS))
+    detected_OS := $(patsubst MINGW%,MSYS,$(detected_OS))
+endif
+
+ifeq ($(detected_OS), Darwin)
+	CXX := g++-12
+else
+	CXX := g++
+endif
 
 COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
-EXTENDED_ARGS := -Wshadow -fsanatize-=address -fsanitize=undefined -D_GLIBCXX_DEBUG
+EXTENDED_ARGS := -Wshadow -fsanatize-=address -fsanitize=undefined -D_GLIBCXX_DEBUG -I.
 
-.PONY: all compile exec clear compilex
+.PONY: all compile exec clean compilex
 
 all: compile
 
@@ -19,5 +33,5 @@ compilex:
 exec: compile
 	./$(OUT_FILE)
 
-clear:
-	rm $(OUT_FILE)
+clean:
+	rm -r $(OUT_FILE) build/ .cache/
