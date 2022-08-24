@@ -47,12 +47,48 @@ inline void sws() {
 const ll MOD = 1e9 + 7;
 const ll oo  = 1e18 + 7;
 
-const int maxn = 5e5+2;
+const int maxn = 2e5+2;
 
-vi vals(maxn);
+vi adj[maxn];
+vi visitado(maxn);
+deque<int> path, ans;
+int l = 0;
+int r = 0;
+int greater = 0;
+
+void dfs(int u) {
+    if(visitado[u]) return;
+
+    visitado[u] = 1;
+    path.pb(u);
+    
+
+
+    for(auto v : adj[u]) {
+        if(!visitado[v]) {
+            dfs(v);
+        }
+    }
+
+    path.pop_back();
+}
 
 int main() {
     sws();
+    
+    int n,m,k; cin >> n >> m >> k;
+
+    vi w(n);
+
+    forn(i,n) cin >> w[i];
+
+    forn(i,m) {
+        int a,b;
+        cin >> a >> b;
+        a--; b--;
+
+        adj[a].pb(b);
+    }
 
     return 0;
 }

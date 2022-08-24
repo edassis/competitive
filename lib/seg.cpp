@@ -53,7 +53,7 @@ struct Seg {
     }
 
     int query(int l, int r) {
-        query(0,0,n-1,l,r);
+        return query(0,0,n-1,l,r);
     }
 
     void update(int i, int amm) {
