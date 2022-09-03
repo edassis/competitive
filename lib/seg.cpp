@@ -47,7 +47,7 @@ inline void sws() {
 const ll MOD = 1e9 + 7;
 const ll oo  = 1e18 + 7;
 
-struct ST {
+struct Seg {
     vi           st;
     vi           lazy;
     vector<bool> has;

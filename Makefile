@@ -1,4 +1,5 @@
 FILE := main.cpp
+DIR := src
 OUT_FILE := a
 
 # https://stackoverflow.com/a/14777895/8903027
@@ -18,17 +19,17 @@ else
 endif
 
 COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
-EXTENDED_ARGS := -Wshadow -fsanatize-=address -fsanitize=undefined -D_GLIBCXX_DEBUG -I.
+EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -I.
 
 .PONY: all compile exec clean compilex
 
 all: compile
 
 compile:
-	$(CXX) $(COMP_ARGS) $(FILE) -o $(OUT_FILE)
+	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 
 compilex:
-	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(FILE) -o $(OUT_FILE)
+	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 	
 exec: compile
 	./$(OUT_FILE)
