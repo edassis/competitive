@@ -73,14 +73,14 @@ struct Seg {
 
   private:
     int query(int sti, int stl, int str, int l, int r) {
+        propagate(sti, stl, str);
         // fora do range
-        if (stl > r || str < l) {
+        if (stl > r or str < l) {
             return el_neutro;
         }
 
         // totalmente
-        if (stl >= l && str <= r) {
-            propagate(sti, stl, str);
+        if (stl >= l and str <= r) {
             return st[sti];
         }
 
@@ -91,14 +91,14 @@ struct Seg {
     }
 
     void update(int sti, int stl, int str, int i, int amm) {
+        propagate(sti, stl, str);
         // fora do range
-        if (stl > i || str < i) {
+        if (stl > i or str < i) {
             return;
         }
 
         // totalmente
-        if (stl == i && str == i) {
-            propagate(sti, stl, str);
+        if (stl == i and str == i) {
             st[sti] = amm;
             return;
         }
@@ -120,6 +120,7 @@ struct Seg {
             lazy[sti] = amm;
             has[sti]  = true;
             propagate(sti, stl, str);
+            return;
         }
 
         int mid = (stl + str) / 2;

@@ -47,52 +47,54 @@ inline void sws() {
 const ll MOD = 1e9 + 7;
 const ll oo  = 1e18 + 7;
 
-
 struct Seg {
-    vi           st;
-    vi           lazy;
+    enum class UpdateType { SET,
+                            INC };
+
+    vl           st;
+    vl           lazy;
     vector<bool> has;
     int          n;
-    int          el_neutro;
+    ll           el_neutro;
 
-    Seg(int n, int el_neutro = 0) : st(4 * n, el_neutro), lazy(4 * n, el_neutro), has(4 * n, false) {
+    Seg(int n, int el_neutro = 0) : st(4 * n, el_neutro), lazy(4 * n, el_neutro), has(4 * n) {
         this->el_neutro = el_neutro;
         this->n         = n;
     }
 
-    int query(int l, int r) {
-        return query(0, 0, n - 1, l, r);
+    ll query(int l, int r, UpdateType updateType = UpdateType::SET) {
+        return query(0, 0, n - 1, l, r, updateType);
     }
 
-    void update(int i, int amm) {
-        update(0, 0, n - 1, i, amm);
+    void update(int i, ll amm, UpdateType updateType = UpdateType::SET) {
+        update(0, 0, n - 1, i, amm, updateType);
     }
 
-    void update(int l, int r, int amm) {
-        update(0, 0, n - 1, l, r, amm);
+    void update(int l, int r, ll amm, UpdateType updateType = UpdateType::SET) {
+        update(0, 0, n - 1, l, r, amm, updateType);
     }
 
   private:
-    int query(int sti, int stl, int str, int l, int r) {
-        propagate(sti, stl, str);
+    ll query(int sti, int stl, int str, int l, int r, UpdateType updateType) {
+        propagate(sti, stl, str, updateType);
         // fora do range
-        if (stl > r || str < l) {
+        if (stl > r or str < l) {
             return el_neutro;
         }
 
         // totalmente
-        if (stl >= l && str <= r) {
+        if (stl >= l and str <= r) {
             return st[sti];
         }
 
         int mid = (stl + str) / 2;
 
         // parcialmente
-        return f(query(sti * 2 + 1, stl, mid, l, r), query(sti * 2 + 2, mid + 1, str, l, r));
+        return f(query(sti * 2 + 1, stl, mid, l, r, updateType), query(sti * 2 + 2, mid + 1, str, l, r, updateType));
     }
 
-    void update(int sti, int stl, int str, int i, int amm) {
-        propagate(sti, stl, str);
+    void update(int sti, int stl, int str, int i, ll amm, UpdateType updateType) {
+        propagate(sti, stl, str, updateType);
         // fora do range
         if (stl > i or str < i) {
             return;
@@ -100,19 +102,19 @@ struct Seg {
 
         // totalmente
         if (stl == i and str == i) {
-            st[sti] += amm;
-            // W(st[sti]);
+            st[sti] = amm;
             return;
         }
 
         // parcialmente
         int mid = (stl + str) / 2;
-        update(sti * 2 + 1, stl, mid, i, amm);
-        update(sti * 2 + 2, mid + 1, str, i, amm);
+
+        update(sti * 2 + 1, stl, mid, i, amm, updateType);
+        update(sti * 2 + 2, mid + 1, str, i, amm, updateType);
         st[sti] = f(st[sti * 2 + 1], st[sti * 2 + 2]);
     }
 
-    void update(int sti, int stl, int str, int l, int r, int amm) {
+    void update(int sti, int stl, int str, int l, int r, ll amm, UpdateType updateType) {
         if (stl > r or str < l) {
             return;
         }
@@ -120,112 +122,81 @@ struct Seg {
         if (stl >= l and str <= r) {
             lazy[sti] = amm;
             has[sti]  = true;
-            propagate(sti, stl, str);
+            propagate(sti, stl, str, updateType);
             return;
         }
 
         int mid = (stl + str) / 2;
-        update(sti * 2 + 1, stl, mid, l, r, amm);
-        update(sti * 2 + 2, mid + 1, str, l, r, amm);
+        update(sti * 2 + 1, stl, mid, l, r, amm, updateType);
+        update(sti * 2 + 2, mid + 1, str, l, r, amm, updateType);
         st[sti] = f(st[sti * 2 + 1], st[sti * 2 + 2]);
     }
 
-    void propagate(int sti, int stl, int str) {
+    void propagate(int sti, int stl, int str, UpdateType updateType) {
         if (has[sti]) {
-            st[sti] += lazy[sti] * (str - stl + 1);
-            // W(stl); W(str); W(st[sti]);
+            ll x = lazy[sti] * (str - stl + 1);
+
+            if (updateType == UpdateType::SET) {
+                st[sti] = x;
+            } else if (updateType == UpdateType::INC) {
+                st[sti] += x;
+            }
+
             if (stl != str) {
                 lazy[sti * 2 + 1] = lazy[sti];
                 lazy[sti * 2 + 2] = lazy[sti];
                 has[sti * 2 + 1]  = true;
                 has[sti * 2 + 2]  = true;
             }
-            has[sti] = false;
         }
     }
 
-    int f(int a, int b) {
+    ll f(ll a, ll b) {
         return a + b;
     }
 };
 
-const int maxn = 2e5+2;
-vi vals(maxn);
-vi adj[maxn];
-vi in(maxn), out(maxn);
-int t = 0;
-vi path(maxn);
+// int main() {
+//     sws();
 
-void dfs(int u, int p, int val=0) {
-    in[u] = t++; 
+//     const int n = 4;
+
+//     Seg st(n);
     
-    val+=vals[u];
-    path[u]=val;
-
-    for(auto v : adj[u]) {
-        if(v!=p) {
-            dfs(v,u,val);
-        }
-    }
-    
-    out[u] = t-1; 
-}
-
-
+// }
 int main() {
     sws();
-    
-    int n,q;
+
+    int n, q;
     cin >> n >> q;
-    
-    // vi vals(n+1);
-    forni(i,1,n+1) {
-        cin >> vals[i];
+
+    Seg st(n+1);
+
+    forne(i, 1, n) {
+        int x;
+        cin >> x;
+        st.update(i, x);
     }
 
-    forn(i,n-1) {
-        int a, b;
-        cin >> a >> b;
-        adj[a].pb(b);
-    }
+    while (q--) {
+        int typ;
+        cin >> typ;
 
-    // construir seg
-    dfs(1,1);
-    Seg seg(n);
-    forni(i,1,n+1) {
-        seg.update(in[i], path[i]);
-        // seg.update(out[i]+1, -vals[i]);
-        // seg.update(in[i], out[i], vals[i]);
-        // seg.update(out[i]+1, -vals[i]);
-        // W(i); W(in[i]);W(out[i]);W(vals[i]);
-        // W(i);
-        // W(seg.query(in[i],out[i]));
-    }
-
-    while(q--) {
-        forni(i,1,n+1) {
-            W(seg.query(in[i],in[i]));
-        }
-
-        int typ; cin >> typ;
-
-        if(typ == 2) {
-            //consulta
-            int no;
-            cin >> no;
-            cout << seg.query(in[no],in[no]) << endl;
+        if (typ == 1) {
+            // increase
+            int a, b, x;
+            cin >> a >> b >> x;
+            st.update(a, b, x, Seg::UpdateType::INC);
+        } else if (typ == 2) {
+            // set
+            int a, b, x;
+            cin >> a >> b >> x;
+            st.update(a, b, x);
         } else {
-            //altera
-            int no, val;
-            cin >> no >> val;
-            val -= vals[no];
-            W(val);
-            seg.update(in[no],out[no],val);
-            // seg.update(in[no], val);
-            // seg.update(out[no]+1,-val);
-            // n sei quando a subarvore termina
-            // usar euler tour
-            // n estou aproveitando a estrutura da seg
+            // sum
+            int a, b;
+            cin >> a >> b;
+            cout << st.query(a, b) << endl;
         }
     }
 

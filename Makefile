@@ -21,14 +21,14 @@ endif
 COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
 EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -I.
 
-.PONY: all compile exec clean compilex
+.PONY: all compile exec clean debug
 
 all: compile
 
 compile:
 	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 
-compilex:
+debug:
 	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 	
 exec: compile
