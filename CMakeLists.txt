@@ -3,6 +3,9 @@ include(CMakePrintHelpers)
 cmake_minimum_required(VERSION 3.16.3)
 project(competitive VERSION 0.1.0)
 
+# message(STATUS "CC from ENV: $ENV{CC}")
+# message(STATUS "CXX from ENV: $ENV{CXX}")
+
 set(MY_FLAGS "")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${MY_FLAGS}")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MY_FLAGS}")

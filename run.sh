@@ -2,12 +2,10 @@
 
 OS=$(uname)
 if [ "$OS" = "Darwin" ]; then
-  /* export C=gcc-12 */
-  export C=cc
-  /* export CXX=g++-12 */
+  export CC=cc
   export CXX=c++
 else
-  export C=gcc
+  export CC=gcc
   export CXX=g++ 
 fi
 
@@ -16,5 +14,5 @@ cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug
 # cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --clean-first -j 7
 
-unset C
+unset CC
 unset CXX
