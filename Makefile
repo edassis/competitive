@@ -2,6 +2,9 @@ FILE := main.cpp
 DIR := src
 OUT_FILE := a
 
+COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
+EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
+
 # https://stackoverflow.com/a/14777895/8903027
 ifeq '$(findstring ;,$(PATH))' ';'
     detected_OS := Windows
@@ -13,13 +16,11 @@ else
 endif
 
 ifeq ($(detected_OS), Darwin)
-	CXX := g++-12
+	CXX := c++
+	COMP_ARGS += -I.
 else
 	CXX := g++
 endif
-
-COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
-EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG -I.
 
 .PONY: all compile exec clean debug
 
