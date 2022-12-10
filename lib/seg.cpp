@@ -139,6 +139,7 @@ struct Seg {
                 has[sti * 2 + 2]  = true;
             }
         }
+        has[sti] = false;
     }
 
     int f(int a, int b) {

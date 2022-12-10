@@ -17,8 +17,6 @@ using vi  = vector<int>;
 using vl  = vector<ll>;
 using vpi = vector<pii>;
 using vpl = vector<pl>;
-template <typename T>
-using V = vector<T>;
 
 // Macros
 #define pb             push_back
@@ -44,54 +42,59 @@ inline void sws() {
     cin.tie(NULL);
     cout.tie(NULL);
 }
-template <typename T>
-ostream &operator<<(ostream &out, V<T> v) {
-    forn(i, v.size()) {
-        cout << v[i] << "\n"[i == v.size() - 1];
-    }
-    return out;
-}
-template <typename T>
-istream &operator>>(istream &in, V<T> v) {
-    int n = v.size();
-    forn(i, n) in >> v[i];
-    return in;
-}
 
 // Constants
-const ll MOD  = 1e9 + 7;
-const ll oo   = 1e18 + 7;
-const ll maxn = 3e5 + 2;
+const ll MOD = 1e9 + 7;
+const ll oo  = 1e18 + 7;
 
-vl  dp[maxn][2];
-int n = 0;
-int k = 0;
+const ll maxn = 1e5;
+const ll k    = 26;
 
-ll f(int i, int qtd, ll joy, vpi &songs) {
-    if (i == n) return 0;
-    if (qtd == k) return 0;
+struct no {
+    bool leaf = false;
+    vi   next;
 
-    ll joyt = min(joy, (ll)songs[i].ss);
-    ll ans  = f(i + 1, qtd + 1, joyt, songs) + songs[i].ff * joyt;
-    ans     = max(ans, f(i + 1, qtd, joy, songs));
-    return ans;
+    no() : next(k) {}
+};
+
+vector<no> trie(1);
+
+int getId(int i, int k) {
+    return i * k + k;
+}
+
+void insert(string s) {
+    int u  = 0;
+    int sz = 0;
+
+    while (sz < s.size()) {
+        int v = trie[u].next[s[u] - 'a'];
+        if (!v) {
+            trie.eb();
+            v                        = trie.size() - 1;
+            trie[u].next[s[u] - 'a'] = v;
+        }
+        u = v;
+        sz++;
+    }
+    trie[u].leaf = true;
+}
+
+bool has(string s) {
+    int u  = 0;
+    int sz = 0;
+    do {
+        u = trie[u].next[s[u] - 'a'];
+        sz++;
+    } while (u && sz);
+
+    return trie[u].leaf;
 }
 
 int main() {
     sws();
 
-    clr(dp);
-    cin >> n >> k;
-
-    vpi songs(n);
-
-    forn(i, n) {
-        int l, p;
-        cin >> l >> p;
-        songs.eb(l, p);
-    }
-
-    cout << f(0, 0, MOD, songs);
+    clr(trie);
 
     return 0;
 }
