@@ -54,7 +54,7 @@ ostream &operator<<(ostream &out, const pair<T,T> &v) {
    return out;
 }
 template <typename T>
-istream &operator>>(istream &in, const V<T> &v) {
+istream &operator>>(istream &in, V<T> &v) {
    loop(i, sz(v)) in >> v[i];
    return in;
 }
