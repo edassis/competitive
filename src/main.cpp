@@ -1,13 +1,15 @@
 #include <bits/stdc++.h>
-#include <iterator>
+#include <ext/pb_ds/assoc_container.hpp>    // oset
+#include <ext/pb_ds/tree_policy.hpp>        // oset
+
+using namespace __gnu_pbds;                 // oset
+using namespace std;
 
 #ifndef ONLINE_JUDGE
     #define W(x) cerr << "\033[31m" << #x << " = " << x << "\033[0m" << "\n";
 #else
     #define W(x)
 #endif
-
-using namespace std;
 
 // Types
 using ll = long long;
@@ -19,6 +21,8 @@ using vpi = vector<pii>;
 using vpl = vector<pl>;
 template <typename T>
 using V = vector<T>;
+template<typename T>
+using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 // Macros
 #define pb push_back
@@ -77,6 +81,41 @@ const ll maxn = -1;
 
 int main() {
     fastio;
+    
+    ll n, k;
+    cin >> n >> k;
+
+    map<ll, ll> rep;
+    ordered_set<ll> oset;
+    
+    loop(i,n) {
+        ll x; cin >> x;
+        oset.insert(x);
+        rep[x]++;
+    }
+
+    auto mine = oset.find_by_order(0);
+    auto maxe = oset.find_by_order(n-1);
+    while(k >= min(rep[*mine], rep[*maxe]) and mine != maxe) {
+        if(rep[*mine] <= rep[*maxe]) {
+            auto time = rep[*mine]/rep[*next(mine)];
+            rep[mine+1] += rep[mine];
+            k -= rep[mine];
+            rep.erase(mine);
+            oset.erase(mine);
+            oset.insert(mine+1);
+        } else {
+            rep[maxe-1] += rep[maxe];
+            k -= rep[maxe];
+            rep.erase(maxe);
+            oset.erase(maxe);
+            oset.insert(maxe-1);
+        }
+        mine = *oset.find_by_order(0);
+        maxe = *oset.find_by_order(sz(oset)-1);
+    }
+
+    print(maxe-mine);
 
     return 0;
 }
