@@ -76,42 +76,45 @@ void print(const V<T> &v, const int s, const int n) {
 
 // Constants
 const ll MOD = 1e9+7;
-const ll oo = 1e18+7;
-const ll maxn = 1e5+2;
+const ll oo = LLONG_MAX;
+const ll maxn = 3e3+2;
 
-const string h = "hard";
-int n;
-string s;
+ll n,x;
 vl a(maxn);
 
-ll dp[maxn][5];
-
-ll f(int i, int t) {
-    if(t >= 4) return oo;
-    if(i >= n) return 0;
-
-    if(dp[i][t] > -1) return dp[i][t];
-
-    if(s[i] != h[t])
-        return dp[i][t] = f(i+1, t);
-
-    return dp[i][t] = min(f(i+1, t+1), f(i+1,t) + a[i]);
+ll dp[maxn][2];
+ll kadane(int i, bool t) {
+    if(i == 0) return t ? a[i] : a[i]*x;
+    if(dp[i][t] > -oo) return dp[i][t];
+    
+    ll pega = -oo;
+    ll npega = -oo;
+    if(t == 0) {
+        pega = max(a[i]*x, a[i]*x + kadane(i-1,1));
+    }
+    npega = a[i] + kadane(i-1,t);
+    
+    return dp[i][t] = max(pega, npega);
 }
 
 int main() {
     fastio;
 
-    cin >> n;
-    cin >> s;
+    cin >> n >> x;
     loop(i,n) cin >> a[i];
-    
-    loop(i,n) loop(j,5) {
-        dp[i][j] = -1;
+
+    ll ans = -oo;
+    loop(i,n) {
+        loop(i,maxn) loop(j,2) dp[i][j] = -oo;
+        ans = max(ans, kadane(i,0));
     }
-    print(f(0,0));
-    
+
+    print(ans);
+
     return 0;
 }
 
-// transicao
-// (tamanho considerado, prefixo) => (n, 4) 
+// f(n)
+//
+// f(n, 0) = max(a[i], a[i] + f(n-1))
+// f(n, 1) = max(a[i]*x, a[i]*x + f(n-1, 1))
