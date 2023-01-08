@@ -1,8 +1,8 @@
 #include <bits/stdc++.h>
-#include <ext/pb_ds/assoc_container.hpp>    // oset
-#include <ext/pb_ds/tree_policy.hpp>        // oset
+// #include <ext/pb_ds/assoc_container.hpp>    // oset
+// #include <ext/pb_ds/tree_policy.hpp>        // oset
 
-using namespace __gnu_pbds;                 // oset
+// using namespace __gnu_pbds;                 // oset
 using namespace std;
 
 #ifndef ONLINE_JUDGE
@@ -21,8 +21,8 @@ using vpi = vector<pii>;
 using vpl = vector<pl>;
 template <typename T>
 using V = vector<T>;
-template<typename T>
-using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
+// template<typename T>
+// using ordered_set = tree<T, null_type, less<T>, rb_tree_tag, tree_order_statistics_node_update>;
 
 // Macros
 #define pb push_back
@@ -52,9 +52,9 @@ ostream &operator<<(ostream &out, const V<T> &v) {
    }
    return out;
 }
-template <typename T>
-ostream &operator<<(ostream &out, const pair<T,T> &v) {
-   out << v.ff << ' ' << v.ss << ' ';
+template <typename T, typename Y>
+ostream &operator<<(ostream &out, const pair<T,Y> &v) {
+   out << '(' << v.ff << ";" << v.ss << ")";
    return out;
 }
 template <typename T>
@@ -77,45 +77,41 @@ void print(const V<T> &v, const int s, const int n) {
 // Constants
 const ll MOD = 1e9+7;
 const ll oo = 1e18+7;
-const ll maxn = -1;
+const ll maxn = 1e5+2;
+
+const string h = "hard";
+int n;
+string s;
+vl a(maxn);
+
+ll dp[maxn][5];
+
+ll f(int i, int t) {
+    if(t >= 4) return oo;
+    if(i >= n) return 0;
+
+    if(dp[i][t] > -1) return dp[i][t];
+
+    if(s[i] != h[t])
+        return dp[i][t] = f(i+1, t);
+
+    return dp[i][t] = min(f(i+1, t+1), f(i+1,t) + a[i]);
+}
 
 int main() {
     fastio;
+
+    cin >> n;
+    cin >> s;
+    loop(i,n) cin >> a[i];
     
-    ll n, k;
-    cin >> n >> k;
-
-    map<ll, ll> rep;
-    ordered_set<ll> oset;
+    loop(i,n) loop(j,5) {
+        dp[i][j] = -1;
+    }
+    print(f(0,0));
     
-    loop(i,n) {
-        ll x; cin >> x;
-        oset.insert(x);
-        rep[x]++;
-    }
-
-    auto mine = oset.find_by_order(0);
-    auto maxe = oset.find_by_order(n-1);
-    while(k >= min(rep[*mine], rep[*maxe]) and mine != maxe) {
-        if(rep[*mine] <= rep[*maxe]) {
-            auto time = rep[*mine]/rep[*next(mine)];
-            rep[mine+1] += rep[mine];
-            k -= rep[mine];
-            rep.erase(mine);
-            oset.erase(mine);
-            oset.insert(mine+1);
-        } else {
-            rep[maxe-1] += rep[maxe];
-            k -= rep[maxe];
-            rep.erase(maxe);
-            oset.erase(maxe);
-            oset.insert(maxe-1);
-        }
-        mine = *oset.find_by_order(0);
-        maxe = *oset.find_by_order(sz(oset)-1);
-    }
-
-    print(maxe-mine);
-
     return 0;
 }
+
+// transicao
+// (tamanho considerado, prefixo) => (n, 4) 
