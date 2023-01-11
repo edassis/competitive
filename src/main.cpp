@@ -76,38 +76,43 @@ void print(const V<T> &v, const int s, const int n) {
 
 // Constants
 const ll MOD = 1e9+7;
-const ll oo = LLONG_MAX;
-const ll maxn = 3e3+2;
+const ll oo = 1e11+3e14+7;
+const ll maxn = 3e5+2;
 
 ll n,x;
 vl a(maxn);
 
 ll dp[maxn][2];
 ll kadane(int i, bool t) {
-    if(i == 0) return t ? a[i] : a[i]*x;
+    if(i < 0) return -oo; 
     if(dp[i][t] > -oo) return dp[i][t];
     
-    ll pega = -oo;
-    ll npega = -oo;
-    if(t == 0) {
-        pega = max(a[i]*x, a[i]*x + kadane(i-1,1));
+    ll op1 = -oo;
+    ll op2 = -oo;
+    if(!t) {
+        op1 = max({a[i], a[i]*x, a[i] + kadane(i-1,0), a[i]*x + kadane(i-1,1)});
+    } else {
+        op2 = max({a[i]*x, a[i]*x + kadane(i-1,1)});
     }
-    npega = a[i] + kadane(i-1,t);
-    
-    return dp[i][t] = max(pega, npega);
+ 
+    return dp[i][t] = max(op1, op2);
 }
-
+ 
 int main() {
     fastio;
 
-    cin >> n >> x;
-    loop(i,n) cin >> a[i];
+    loop(i,maxn) loop(j,2) dp[i][j] = -oo;
 
+    int n, x;
+    cin >> n >> x;
+
+    loop(i,n) cin >> a[i];
+    
     ll ans = -oo;
     loop(i,n) {
-        loop(i,maxn) loop(j,2) dp[i][j] = -oo;
         ans = max(ans, kadane(i,0));
     }
+    ans = max(ans, 0LL);
 
     print(ans);
 
@@ -115,6 +120,6 @@ int main() {
 }
 
 // f(n)
-//
-// f(n, 0) = max(a[i], a[i] + f(n-1))
+// f(0) = max(0, a[0]);
 // f(n, 1) = max(a[i]*x, a[i]*x + f(n-1, 1))
+// f(n, 0) = max(a[i] , a[i]*x + f(n-1, 1), a[i] + f(n-1,0))
