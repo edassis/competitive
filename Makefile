@@ -16,7 +16,8 @@ else
 endif
 
 ifeq ($(detected_OS), Darwin)
-	CXX := c++
+	# CXX := c++
+CXX := g++-12
 	COMP_ARGS += -I.
 else
 	CXX := g++
