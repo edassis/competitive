@@ -2,7 +2,7 @@ FILE := main.cpp
 DIR := src
 OUT_FILE := a
 
-COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g 
+COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -g
 EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
 
 # https://stackoverflow.com/a/14777895/8903027
@@ -18,7 +18,8 @@ endif
 ifeq ($(detected_OS), Darwin)
 	# CXX := c++
 CXX := g++-12
-	COMP_ARGS += -I.
+	# COMP_ARGS += -I.
+	COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
 else
 	CXX := g++
 endif
