@@ -18,6 +18,15 @@ ifeq ($(detected_OS), Darwin)
 	CXX := $(shell compgen -c | grep g++ -m1)
 	COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
 	EXTENDED_ARGS := -Wshadow -D_GLIBCXX_DEBUG
+
+	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++17 -Og
+	
+	CMP_CMD := clang++ -Wno-deprecated -stdlib=libstdc++ \
+		-stdlib++-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13 \
+		-cxx-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13/aarch64-apple-darwin22 \
+		-L /opt/homebrew/Cellar/gcc/13.1.0/lib/gcc/13 \
+		$(COMP_ARGS) -o $(OUT_FILE) $(DIR)/$(FILE)
+
 else
 	CXX := g++
 	EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
@@ -32,13 +41,7 @@ compile:
 	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 
 mac:
-	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++17 -Og
-	clang++ -Wno-deprecated -stdlib=libstdc++ \
--stdlib++-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13 \
--cxx-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13/aarch64-apple-darwin22 \
--L /opt/homebrew/Cellar/gcc/13.1.0/lib/gcc/13 \
-$(COMP_ARGS) \
--o $(OUT_FILE) $(DIR)/$(FILE)
+	$(CMP_CMD)
 
 debug:
 	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
