@@ -10,9 +10,9 @@
             "request": "launch",
             "program": "${workspaceFolder}/a",
             // args n funciona
-            // "args": ["<", "${workspaceFolder}/input.txt"],
+            // "args": ["<", "input.txt"],
             "cwd": "${workspaceFolder}",
-            "preLaunchTask": "compile"
+            // "preLaunchTask": "compile"
         },
         {
             "name": "Build && Debug",
