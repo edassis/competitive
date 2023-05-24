@@ -12,7 +12,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${MY_FLAGS}")
 # include_directories and target_include_directories didn't work
 # Mac always overrides the specified path. Setting this seems to solve:
 # set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES "/opt/homebrew/include/c++/12/aarch64-apple-darwin21")
-set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR})
+# set(CMAKE_CXX_STANDARD_INCLUDE_DIRECTORIES ${CMAKE_SOURCE_DIR})
 #SET(CMAKE_OSX_SYSROOT "$ENV{HOME}/.platformio/packages/toolchain-xtensa32/xtensa-esp32-elf/sysroot")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
@@ -24,6 +24,7 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 #ENABLE_TESTING()
 
 # include_directories(BEFORE SYSTEM "/opt/homebrew/include/c++/11")
+include_directories(BEFORE SYSTEM "include")
 
 add_executable(a src/main.cpp)
 #set(CPACK_PROJECT_NAME ${PROJECT_NAME})

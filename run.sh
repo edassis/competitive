@@ -1,12 +1,14 @@
-#!/bin/bash
+#!/usr/bin/env bash
+
+export CC CXX
+
+CC=gcc
+CXX=g++ 
 
 OS=$(uname)
 if [ "$OS" = "Darwin" ]; then
-  export CC=gcc-13
-  export CXX=g++-13
-else
-  export CC=gcc
-  export CXX=g++ 
+	CC=$(compgen -c | grep gcc -m1)
+	CXX=$(compgen -c | grep g++ -m1)
 fi
 
 cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug
@@ -14,5 +16,4 @@ cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug
 # cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug
 cmake --build build --clean-first -j 7
 
-unset CC
-unset CXX
+unset CC CXX
