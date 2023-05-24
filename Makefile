@@ -15,8 +15,12 @@ else
 endif
 
 ifeq ($(detected_OS), Darwin)
-	CXX := $(shell compgen -c | grep g++ -m1)
-	COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
+	# CXX := $(shell compgen -c | grep g++ -m1)
+	CXX := clang++
+
+	# COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
+	COMP_ARGS := -std=c++17 -Iinclude -Wall -Og
+	
 	EXTENDED_ARGS := -Wshadow -D_GLIBCXX_DEBUG
 
 	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++17 -Og
@@ -25,7 +29,8 @@ ifeq ($(detected_OS), Darwin)
 		-stdlib++-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13 \
 		-cxx-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13/aarch64-apple-darwin22 \
 		-L /opt/homebrew/Cellar/gcc/13.1.0/lib/gcc/13 \
-		$(COMP_ARGS) -o $(OUT_FILE) $(DIR)/$(FILE)
+		-std=c++17 -Wall -Wno-unused-result -Og \
+		-o $(OUT_FILE) $(DIR)/$(FILE)
 
 else
 	CXX := g++
@@ -33,7 +38,7 @@ else
 endif
 
 .PONY: all compile exec clean debug mac
-.SILENT: mac
+# .SILENT: mac
 
 all: compile
 

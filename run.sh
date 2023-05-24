@@ -2,8 +2,8 @@
 
 OS=$(uname)
 if [ "$OS" = "Darwin" ]; then
-  export CC=gcc-12
-  export CXX=g++-12
+  export CC=gcc-13
+  export CXX=g++-13
 else
   export CC=gcc
   export CXX=g++ 
