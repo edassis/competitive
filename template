@@ -1,0 +1,84 @@
+#include <bits/stdc++.h>
+
+// #include <ext/pb_ds/assoc_container.hpp>    // oset
+// #include <ext/pb_ds/tree_policy.hpp>        // oset
+// using namespace __gnu_pbds;                 // oset
+
+#ifndef ONLINE_JUDGE
+    #define W(x) std::cerr << "\033[31m" << #x << " = " << x << "\033[0m" << "\n";
+    #define dbg(msg, var) cout << msg << ' ' << var << endl
+#else
+    #define W(x)
+    #define dbg(msg, var)
+#endif
+
+using namespace std;
+
+// Types
+using ll = long long;
+using pi = pair<int,int>;
+using pl = pair<ll,ll>;
+using vi = vector<int>;
+using vl = vector<ll>;
+using vpi = vector<pi>;
+using vpl = vector<pl>;
+template <typename T>
+using V = vector<T>;
+
+// Macros
+#define pb push_back
+#define eb emplace_back
+#define mp make_pair
+#define mt make_tuple
+#define FF first
+#define SS second
+#define endl '\n'
+#define loop(i, n) for(int i=0; i<(int)n; i++)
+#define all(x) x.begin(), x.end()
+#define rall(x) x.rbegin(), x.rend()
+#define sz(x) (int)x.size()
+#define fastio ios_base::sync_with_stdio(false);cin.tie(NULL);cout.tie(NULL)
+
+// Functions
+template<typename T>
+inline void clr(T& x) { memset(x, 0, sizeof(x)); }
+template <typename T>
+ostream &operator<<(ostream &out, const V<T> &v) {
+   loop(i, v.size()) {
+       cout << v[i] << ' ';
+   }
+   return out;
+}
+template <typename T, typename U>
+ostream &operator<<(ostream &out, const pair<T,U> &v) {
+   cout << '(' << v.FF << ';' << v.SS << ')';
+//    cout << v.FF << ' ' << v.SS;
+   return out;
+}
+template <typename T>
+istream &operator>>(istream &in, const V<T> &v) {
+   loop(i, sz(v)) in >> v[i];
+   return in;
+}
+template <typename T>
+void print(const T &v) {
+    cout << v << endl;
+}
+template <typename T>
+void print(const V<T> &v, const int s, const int n) {
+    for(int i=s; i<n; i++) cout << v[i] << ' ';
+    cout << endl;
+}
+
+// Constants
+const ll MOD = 1e9+7;
+const ll oo = 1e18+7;
+const ll maxn = -1;
+
+int main() {
+    fastio;
+
+
+
+    return 0;
+}
