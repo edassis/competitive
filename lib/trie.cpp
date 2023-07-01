@@ -26,9 +26,9 @@ using vpl = vector<pl>;
 #define ff             first
 #define ss             second
 #define endl           '\n'
-#define forn(i, n)     for (int i = 0; i < (int)n; i++)
-#define forni(i, k, n) for (int i = k; i < (int)n; i++)
-#define forne(i, k, n) for (int i = k; i <= (int)n; i++)
+#define loop(i, n)     for (int i = 0; i < (int)n; i++)
+#define loopi(i, k, n) for (int i = k; i < (int)n; i++)
+#define loope(i, k, n) for (int i = k; i <= (int)n; i++)
 #define fora(e, a)     for (auto e : a)
 #define dbg(msg, var)  cout << msg << " " << var << endl
 #define all(x)         x.begin(), x.end()
@@ -47,14 +47,16 @@ inline void sws() {
 const ll MOD = 1e9 + 7;
 const ll oo  = 1e18 + 7;
 
-const ll maxn = 1e5;
-const ll k    = 26;
+const ll maxn = 1e5+2;
+const ll K    = 26;
+
+// int n;
 
 struct no {
     bool leaf = false;
     vi   next;
 
-    no() : next(k) {}
+    no() : next(K) {}
 };
 
 vector<no> trie(1);
@@ -68,11 +70,11 @@ void insert(string s) {
     int sz = 0;
 
     while (sz < s.size()) {
-        int v = trie[u].next[s[u] - 'a'];
+        int v = trie[u].next[s[sz] - 'a'];
         if (!v) {
             trie.eb();
-            v                        = trie.size() - 1;
-            trie[u].next[s[u] - 'a'] = v;
+            v = trie.size() - 1;
+            trie[u].next[s[sz] - 'a'] = v;
         }
         u = v;
         sz++;
@@ -84,17 +86,51 @@ bool has(string s) {
     int u  = 0;
     int sz = 0;
     do {
-        u = trie[u].next[s[u] - 'a'];
-        sz++;
-    } while (u && sz);
+        u = trie[u].next[s[sz++] - 'a'];
+    } while (u and sz < s.size());
 
     return trie[u].leaf;
 }
 
+vi dp(maxn, -1);
+string s;
+
+int count(int i) {
+    if(i == s.size()) return 1;
+    W(s.substr(i));
+    if(dp[i] > -1) return dp[i];
+
+    int u = 0;
+
+    int j = i;
+    int ans = 0;
+    do {
+        u = trie[u].next[s[j]-'a'];
+        j++;
+        if(trie[u].leaf) {
+            ans += count(j);
+            ans %= MOD;
+        }
+    } while(u and j < s.size());
+
+    return dp[i] = ans;
+}
+
+
 int main() {
     sws();
 
-    clr(trie);
+    int n;
+    cin >> n;
+
+    loop(i,n) {
+        cin >> s;
+        insert(s);
+    }
+
+    cin >> s;
+
+    cout << count(0) << endl;
 
     return 0;
 }

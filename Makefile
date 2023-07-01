@@ -2,7 +2,8 @@ FILE := main.cpp
 DIR := src
 OUT_FILE := a
 
-COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -Og
+COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -ggdb -Og -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
+EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined
 
 # https://stackoverflow.com/a/14777895/8903027
 ifeq '$(findstring ;,$(PATH))' ';'

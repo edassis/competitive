@@ -30,8 +30,7 @@
             "forcedInclude": [
                 "/opt/homebrew/include/c++/11/aarch64-apple-darwin21/bits/stdc++.h"
             ],
-            "configurationProvider": "ms-vscode.cmake-tools",
-            // "compileCommands": "${workspaceFolder}/build/compile_commands.json"
+            "configurationProvider": "ms-vscode.cmake-tools"
         },
         {
             "name": "Linux",
@@ -39,7 +38,7 @@
             "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "ms-vscode.makefile-tools"
         }
     ],
     "version": 4

@@ -11,11 +11,11 @@ using namespace std;
 
 // Types
 using ll  = long long;
-using pii = pair<int, int>;
+using pi = pair<int, int>;
 using pl  = pair<ll, ll>;
 using vi  = vector<int>;
 using vl  = vector<ll>;
-using vpi = vector<pii>;
+using vpi = vector<pi>;
 using vpl = vector<pl>;
 
 // Macros
