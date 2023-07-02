@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 
 export CC CXX
-
 CC=gcc
 CXX=g++ 
 
 OS=$(uname)
 if [ "$OS" = "Darwin" ]; then
-	CC=$(compgen -c | grep gcc -m1)
-	CXX=$(compgen -c | grep g++ -m1)
+	CC=$(compgen -c | grep -E "^gcc-\d+" -m1)
+	CXX=$(compgen -c | grep -E "^g\+\+-\d+" -m1)
 fi
 
 cmake -G "Unix Makefiles" -B build -DCMAKE_BUILD_TYPE=Debug

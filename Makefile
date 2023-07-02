@@ -16,40 +16,33 @@ else
 endif
 
 ifeq ($(detected_OS), Darwin)
-	CXX := $(shell compgen -c | grep g++ -m1)
-	# CXX := clang++
+	# CXX := $(shell compgen -c | grep -E "^g\+\+-\d+" -m1)
+	CXX := clang++
 
 	# COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
-	# COMP_ARGS := -std=c++17 -Iinclude -Wall -Og
+	# COMP_ARGS := -std=c++17 -Iinclude -Wall -g
+	# EXTENDED_ARGS := -Wshadow -D_GLIBCXX_DEBUG
+	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++17 -g
 	
-	EXTENDED_ARGS := -Wshadow -D_GLIBCXX_DEBUG
-
-	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++17 -Og
-	
-	CMP_CMD := clang++ -stdlib=libstdc++ \
-		-stdlib++-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13 \
-		-cxx-isystem /opt/homebrew/Cellar/gcc/13.1.0/include/c++/13/aarch64-apple-darwin22 \
-		-L /opt/homebrew/Cellar/gcc/13.1.0/lib/gcc/13 \
-		-std=c++17 \
-		-o $(OUT_FILE) $(DIR)/$(FILE)
-
+	# g++ > 11 é bugado no mac, não dá para criar arrays > 1e3.
+	COMP_ARGS := -stdlib=libstdc++ \
+		-stdlib++-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11 \
+		-cxx-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11/aarch64-apple-darwin22 \
+		-L /opt/homebrew/Cellar/gcc@11/11.4.0/lib/gcc/11 \
+		-std=c++17 -Wall -Wno-unused-result -ggdb -Og \
 else
 	CXX := g++
-	EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined -D_GLIBCXX_DEBUG
 endif
 
-.PONY: all compile exec clean debug mac
-# .SILENT: mac
+.PONY: all compile sanz exec clean
+# .SILENT:
 
 all: compile
 
 compile:
 	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 
-mac:
-	$(CMP_CMD)
-
-debug:
+sanz:
 	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
 	
 exec: compile
