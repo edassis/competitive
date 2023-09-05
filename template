@@ -30,8 +30,8 @@ template <typename T> using V = vector<T>;
 #define FF first
 #define SS second
 #define endl '\n'
-#define FOR(i, k, n) for(int i=k; (k<n)?(i<=(int)n):(i>=(int)n); (k<n)?i++:i--)
 #define loop(i, n) for(int i=0; i<(int)n; i++)
+#define loopp(i, k, n) for(int i=k; (k<n)?(i<=(int)n):(i>=(int)n); (k<n)?i++:i--)
 #define loopi(i, k, n) for(int i=k; i<(int)n; i++)
 #define loope(i, k, n) for(int i=k; i<=(int)n; i++)
 #define all(x) x.begin(), x.end()
@@ -49,7 +49,7 @@ const ll MOD = 1e7+2;
 const ll oo = 1e9+7;
 const ll maxn = 2e5+4;
 
-int main() {
+int32_t main() {
     fastio;
 
     
