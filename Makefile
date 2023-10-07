@@ -2,7 +2,7 @@ FILE := main.cpp
 DIR := src
 OUT_FILE := a
 
-COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -ggdb -Og -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
+COMP_ARGS := -std=c++17 -Wall -Wno-unused-result -ggdb -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined
 
 # https://stackoverflow.com/a/14777895/8903027
@@ -29,7 +29,7 @@ ifeq ($(detected_OS), Darwin)
 		-stdlib++-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11 \
 		-cxx-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11/aarch64-apple-darwin22 \
 		-L /opt/homebrew/Cellar/gcc@11/11.4.0/lib/gcc/11 \
-		-std=c++17 -Wall -Wno-unused-result -ggdb -Og \
+		-std=c++17 -Wall -Wno-unused-result -ggdb \
 else
 	CXX := g++
 endif
