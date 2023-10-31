@@ -29,7 +29,7 @@ ifeq ($(detected_OS), Darwin)
 		-stdlib++-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11 \
 		-cxx-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11/aarch64-apple-darwin22 \
 		-L /opt/homebrew/Cellar/gcc@11/11.4.0/lib/gcc/11 \
-		-std=c++17 -Wall -Wno-unused-result -ggdb \
+		-std=c++17 -Wall -Wno-unused-result -ggdb
 else
 	CXX := g++
 endif
