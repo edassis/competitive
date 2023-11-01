@@ -1,6 +1,6 @@
-FILE := main.cpp
+FILE := main
 DIR := src
-OUT_FILE := a
+# OUT_FILE := a
 
 COMP_ARGS := -std=c++20 -Wall -Wno-unused-result -ggdb -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined
@@ -22,7 +22,7 @@ ifeq ($(detected_OS), Darwin)
 	# COMP_ARGS += --sysroot=$(shell xcrun --show-sdk-path)
 	# COMP_ARGS := -std=c++20 -Iinclude -Wall -g
 	# EXTENDED_ARGS := -Wshadow -D_GLIBCXX_DEBUG
-	# g++ $(DIR)/$(FILE) -o $(OUT_FILE) -I. -std=c++20 -g
+	# g++ $(DIR)/$(FILE).cpp -o $(FILE) -I. -std=c++20 -g
 	
 	# g++ > 11 é bugado no mac, não dá para criar arrays > 1e3.
 	COMP_ARGS := -stdlib=libstdc++ \
@@ -40,13 +40,13 @@ endif
 all: compile
 
 compile:
-	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
+	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE).cpp -o $(DIR)/$(FILE)
 
 sanz:
-	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE) -o $(OUT_FILE)
+	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE).cpp -o $(DIR)/$(FILE)
 	
 exec: compile
-	./$(OUT_FILE)
+	./$(DIR)/$(FILE)
 
 clean:
-	rm -rf $(OUT_FILE) build/ .cache/
+	rm -rf $(FILE) build/ .cache/
