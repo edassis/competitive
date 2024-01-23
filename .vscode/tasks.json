@@ -1,49 +1,48 @@
 {
-    "version": "2.0.0",
-    "tasks": [
-        {
-            "label": "C/C++: g++ build active file",
-            "type": "shell",
-            "command": "make",
-            // "command": "/usr/bin/g++",
-            // "args": [
-            //     "-std=c++17",
-            //     "-Wall",
-            //     "-Wextra",
-            //     "-g",
-            //     "${file}",
-            //     "-o",
-            //     "a"
-            // ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-			"presentation": {
-				"echo": true,
-				"reveal": "silent",
-				"focus": false,
-				"panel": "shared",
-				"showReuseMessage": false,
-				"clear": true,
-				// "close": true
-			},
-            "problemMatcher": [
-                "$gcc"
-            ],
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        },
-        {
-            "label": "compile",
-            "type": "shell",
-            "command": "./run.sh"
-        },
-        {
-            "label": "compile and run",
-            "type": "shell",
-            "command": "./run.sh && ./a"
-        }
-    ]
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "C/C++: g++ build active file",
+      "type": "shell",
+      "command": "g++",
+      "args": [
+        "-std=c++20",
+        "-Wall",
+        "-Wno-unused-result",
+        "-ggdb",
+        "-D_GLIBCXX_DEBUG",
+        "-D_GLIBCXX_DEBUG_PEDANTIC",
+        "${file}",
+        "-o",
+        "${fileDirname}/${fileBasenameNoExtension}"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}"
+      },
+      "presentation": {
+        "echo": true,
+        "reveal": "silent",
+        "focus": false,
+        "panel": "shared",
+        "showReuseMessage": false,
+        "clear": true
+        // "close": true
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    },
+    {
+      "label": "compile",
+      "type": "shell",
+      "command": "./run.sh"
+    },
+    {
+      "label": "compile and run",
+      "type": "shell",
+      "command": "./run.sh && ./a"
+    }
+  ]
 }
