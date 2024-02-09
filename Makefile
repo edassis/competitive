@@ -1,6 +1,3 @@
-FILE := main
-DIR := src
-# OUT_FILE := a
 
 COMP_ARGS := -std=c++20 -Wall -Wno-unused-result -ggdb -D_GLIBCXX_DEBUG -D_GLIBCXX_DEBUG_PEDANTIC
 EXTENDED_ARGS := -Wshadow -fsanitize=address -fsanitize=undefined
@@ -29,24 +26,41 @@ ifeq ($(detected_OS), Darwin)
 		-stdlib++-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11 \
 		-cxx-isystem /opt/homebrew/Cellar/gcc@11/11.4.0/include/c++/11/aarch64-apple-darwin22 \
 		-L /opt/homebrew/Cellar/gcc@11/11.4.0/lib/gcc/11 \
-		-std=c++20 -Wall -Wno-unused-result -ggdb
+		$(COMP_ARGS)
 else
 	CXX := g++
 endif
 
+FILE := src/main.cpp
+
 .PONY: all compile sanz exec clean
 # .SILENT:
 
-all: compile
-
 compile:
-	$(CXX) $(COMP_ARGS) $(DIR)/$(FILE).cpp -o $(DIR)/$(FILE)
+	$(CXX) $(COMP_ARGS) $(FILE) -o $(FILE:.cpp=)
 
 sanz:
-	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(DIR)/$(FILE).cpp -o $(DIR)/$(FILE)
+	$(CXX) $(COMP_ARGS) $(EXTENDED_ARGS) $(FILE) -o $(FILE:.cpp=)
 	
 exec: compile
-	./$(DIR)/$(FILE)
+	./$(FILE)
 
 clean:
 	rm -rf $(FILE) build/ .cache/
+
+#########
+
+SRC_DIR := src
+
+SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+
+BINS := $(SRCS:$(SRC_DIR)/%.cpp=$(SRC_DIR)/%)
+
+# $(info The value of SRCS is $(SRCS))
+
+# $(info The value of SRCS is $(BINS))
+
+all: $(BINS)
+
+$(SRC_DIR)/%: $(SRC_DIR)/%.cpp
+	$(CXX) $(COMP_ARGS) $< -o $@
