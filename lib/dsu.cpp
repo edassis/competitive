@@ -1,19 +1,12 @@
-#include <bits/stdc++.h>
+template<typedef T>
+struct DSU {
+    vector<T> p, size;
 
-using namespace std;
-
-using vi = vector<int>;
-#define all(x) x.begin(),x.end()
-
-class DSU {
-    vi p;
-    vi size;
-public:
     DSU(int n) : p(n+1), size(n+1, 1) {
-        iota(all(p), 0);
+        iota(p.begin(), p.end(), 0);
     }
 
-    void insert(int a, int b) {
+    void insert(T a, T b) {
         // vai para o pai
         a = query(a);
         b = query(b);
@@ -31,12 +24,12 @@ public:
         p[a] = b;
     }
 
-    int query(int e) {
+    T query(int e) {
         // Compressão
         return (e == p[e]) ? (e) : ( p[e] = query(p[e]) );
     }
 
-    bool same_set(int a, int b) {
+    bool same_set(T a, T b) {
         return query(a) == query(b);
     }
 };
