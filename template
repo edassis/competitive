@@ -42,14 +42,16 @@ template<typename T> inline void clr(T& x) { memset(x, 0, sizeof(x)); }
 template <typename T> inline ostream &operator<<(ostream &out, const V<T> &v) { loop(i, v.size()) { out << v[i] << ' '; }; return out; }
 template <typename T, typename Y> inline ostream &operator<<(ostream &out, const pair<T,Y> &v) { out << v.ff << ' ' << v.ss; return out; }
 // https://stackoverflow.com/a/41171552
-template <class TupType, size_t... I> inline void print(const TupType &tuple, index_sequence<I...>) { (..., (cout << (I == 0 ? "" : " ") << get<I>(tuple))); cout << endl; }
-template <class... T> inline void print(const tuple<T...> &tuple) { print(tuple, make_index_sequence<sizeof...(T)>()); }
+template <class TupType, size_t... I> inline void print(ostream &os, const TupType &tuple, index_sequence<I...>) { (..., (os << (I == 0 ? "" : " ") << get<I>(tuple))); }
+template <class... T> inline void print(ostream &os, const tuple<T...> &tuple) { print(os, tuple, make_index_sequence<sizeof...(T)>()); }
+template <class... T> inline ostream &operator<<(ostream &os, const tuple<T...> &tuple) { print(os, tuple); return os; }
+template <class... T> inline void print(const tuple<T...> &tuple) { print(cout, tuple); }
 template <typename T> inline void print(const T &v) { cout << v << endl; }
 template <typename T> inline void print(const V<T> &v, const int& s, const int& n) { loopi(i,s,n) { cout << v[i] << ' '; }; cout << endl; }
 // Constants
 const ll MOD = 1e7+2;
 const ll oo = 1e9+7;
-const ll maxn = 2e5+4;
+const ll N = 2e5+4;
 
 int32_t main() {
     fastio;
